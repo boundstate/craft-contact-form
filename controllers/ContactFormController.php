@@ -27,6 +27,9 @@ class ContactFormController extends BaseController
 		$message = new ContactFormModel();
 		$savedBody = false;
 
+		$message->reCaptchaSecret = $settings->reCaptchaSecret;
+		$message->reCaptchaResponse = craft()->request->getPost('g-recaptcha-response');
+
 		$message->fromEmail  = craft()->request->getPost('fromEmail');
 		$message->fromName	 = craft()->request->getPost('fromName');
 		$message->subject    = craft()->request->getPost('subject');

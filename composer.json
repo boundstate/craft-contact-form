@@ -1,10 +1,17 @@
 {
-  "name": "boundstate/craft-contactform",
-  "description": "Contact Form plugin for Craft",
-  "license": "MIT",
-  "type": "craft-plugin",
-  "keywords": ["craft", "cms", "plugin", "contact", "form"],
-  "require": {
-    "composer/installers": "~1.0"
-  }
+	"name": "boundstate/craft-contactform",
+	"description": "Contact Form plugin for Craft",
+	"license": "MIT",
+	"type": "craft-plugin",
+	"keywords": [
+		"craft",
+		"cms",
+		"plugin",
+		"contact",
+		"form"
+	],
+	"require": {
+		"composer/installers": "~1.0",
+		"google/recaptcha": "~1.1"
+	}
 }

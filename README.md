@@ -49,6 +49,9 @@ Your contact form template can look something like this:
     <textarea rows="10" cols="40" id="message" name="message">{% if message is defined %}{{ message.message }}{% endif %}</textarea>
     {{ message is defined and message ? errorList(message.getErrors('message')) }}
 
+    {{ craft.contactform.getReCaptchaInput()|raw }}
+    {{ message is defined and message ? errorList(message.getErrors('reCaptchaResponse')) }}
+
     <input type="submit" value="Send">
 </form>
 ```
