@@ -1,0 +1,9 @@
+{
+  "name": "boundstate/craft-contact-form",
+  "description": "Contact Form plugin for Craft",
+  "type": "craft-plugin",
+  "keywords": ["craft", "cms", "plugin", "contact", "form"],
+  "require": {
+    "composer/installers": "~1.0"
+  }
+}
