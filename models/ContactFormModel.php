@@ -8,7 +8,7 @@ class ContactFormModel extends BaseModel
 	public function rules()
 	{
 		return \CMap::mergeArray(parent::rules(), array(
-			array('reCaptchaResponse', 'validateReCaptcha')
+			array('reCaptchaResponse', 'validateReCaptcha', 'skipOnError' => true),
 		));
 	}
 
