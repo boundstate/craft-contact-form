@@ -107,9 +107,9 @@ class ContactFormPlugin extends BasePlugin
 	protected function defineSettings()
 	{
 		return array(
+			'toEmail'               => array(AttributeType::String, 'required' => true),
 			'reCaptchaSiteKey'      => array(AttributeType::String, 'required' => true),
 			'reCaptchaSecret'       => array(AttributeType::String, 'required' => true),
-			'toEmail'               => array(AttributeType::String, 'required' => true),
 			'prependSender'         => array(AttributeType::String, 'default' => Craft::t('On behalf of')),
 			'prependSubject'        => array(AttributeType::String, 'default' => Craft::t('New message from {siteName}', array('siteName' => craft()->getSiteName()))),
 			'allowAttachments'      => AttributeType::Bool,

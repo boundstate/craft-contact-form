@@ -8,15 +8,29 @@
 
 {% from _self import configWarning %}
 
+
+{{ forms.textField({
+	first:        true,
+	label:        "To Email"|t,
+	required:     true,
+	id:           'toEmail',
+	name:         'toEmail',
+	instructions: "The email address(es) that the contact form will send to. Separate multiple email addresses with commas."|t,
+	value:        settings.toEmail,
+	autofocus:    true,
+	disabled:     (craft.config.get('toEmail', 'contactform') is not sameas(null)),
+	warning:      (craft.config.get('toEmail', 'contactform') is not sameas(null)) ? configWarning('toEmail'),
+	errors:       settings.getErrors('toEmail')
+}) }}
+
 {{ forms.textField({
 	first:        true,
 	label:        "Google reCAPTCHA Site Key"|t,
 	required:     true,
 	id:           'reCaptchaSiteKey',
 	name:         'reCaptchaSiteKey',
-	instructions: "Generate keys at <a href=\"https://www.google.com/recaptcha/admin\">google.com/recaptcha/admin</a>"|t,
+	instructions: "Generate keys at <a target=\"_blank\" href=\"https://www.google.com/recaptcha/admin\">google.com/recaptcha/admin</a>"|t,
 	value:        settings.reCaptchaSiteKey,
-	autofocus:    true,
 	disabled:     (craft.config.get('reCaptchaSiteKey', 'contactform') is not sameas(null)),
 	warning:      (craft.config.get('reCaptchaSiteKey', 'contactform') is not sameas(null)) ? configWarning('reCaptchaSiteKey'),
 	errors:       settings.getErrors('reCaptchaSiteKey')
@@ -32,19 +46,6 @@
 	disabled:     (craft.config.get('reCaptchaSecret', 'contactform') is not sameas(null)),
 	warning:      (craft.config.get('reCaptchaSecret', 'contactform') is not sameas(null)) ? configWarning('reCaptchaSecret'),
 	errors:       settings.getErrors('reCaptchaSecret')
-}) }}
-
-{{ forms.textField({
-	first:        true,
-	label:        "To Email"|t,
-	required:     true,
-	id:           'toEmail',
-	name:         'toEmail',
-	instructions: "The email address(es) that the contact form will send to. Separate multiple email addresses with commas."|t,
-	value:        settings.toEmail,
-	disabled:     (craft.config.get('toEmail', 'contactform') is not sameas(null)),
-	warning:      (craft.config.get('toEmail', 'contactform') is not sameas(null)) ? configWarning('toEmail'),
-	errors:       settings.getErrors('toEmail')
 }) }}
 
 {{ forms.textField({
