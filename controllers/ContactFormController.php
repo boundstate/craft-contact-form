@@ -69,70 +69,69 @@ class ContactFormController extends BaseController
 		}
 		elseif ($postedMessage)
 		{
-			if (is_array($postedMessage))
+			if (!is_array($postedMessage)) {
+				$postedMessage = array('body' => $postedMessage);
+			}
+
+			// Include from information in body
+			$postedMessage['From'] = "{$message->fromName} ({$message->fromEmail})";
+
+			// Capture all of the message fields on the model in case there's a validation error
+			$message->messageFields = $postedMessage;
+
+			// Capture the original message body
+			if (isset($postedMessage['body']))
 			{
-				// Capture all of the message fields on the model in case there's a validation error
-				$message->messageFields = $postedMessage;
+				// Save the message body in case we need to reassign it in the event there's a validation error
+				$savedBody = $postedMessage['body'];
+			}
 
-				// Capture the original message body
-				if (isset($postedMessage['body']))
+			// If it's false, then there was no messages[body] input submitted.  If it's '', then validation needs to fail.
+			if ($savedBody === false || $savedBody !== '')
+			{
+				// Compile the message from each of the individual values
+				$compiledMessage = '';
+
+				foreach ($postedMessage as $key => $value)
 				{
-					// Save the message body in case we need to reassign it in the event there's a validation error
-					$savedBody = $postedMessage['body'];
-				}
-
-				// If it's false, then there was no messages[body] input submitted.  If it's '', then validation needs to fail.
-				if ($savedBody === false || $savedBody !== '')
-				{
-					// Compile the message from each of the individual values
-					$compiledMessage = '';
-
-					foreach ($postedMessage as $key => $value)
-					{
-						if ($key != 'body')
-						{
-							if ($compiledMessage)
-							{
-								$compiledMessage .= "\n\n";
-							}
-
-							$compiledMessage .= $key.': ';
-
-							if (is_array($value))
-							{
-								$compiledMessage .= implode(', ', $value);
-							}
-							else
-							{
-								$compiledMessage .= $value;
-							}
-						}
-					}
-
-					if (!empty($postedMessage['body']))
+					if ($key != 'body')
 					{
 						if ($compiledMessage)
 						{
 							$compiledMessage .= "\n\n";
 						}
 
-						$compiledMessage .= $postedMessage['body'];
+						$compiledMessage .= $key.': ';
+
+						if (is_array($value))
+						{
+							$compiledMessage .= implode(', ', $value);
+						}
+						else
+						{
+							$compiledMessage .= $value;
+						}
+					}
+				}
+
+				if (!empty($postedMessage['body']))
+				{
+					if ($compiledMessage)
+					{
+						$compiledMessage .= "\n\n";
 					}
 
-					$message->message = $compiledMessage;
+					$compiledMessage .= $postedMessage['body'];
 				}
-			}
-			else
-			{
-				$message->message = $postedMessage;
-				$message->messageFields = array('body' => $postedMessage);
+
+				$message->message = $compiledMessage;
 			}
 		}
 
-        if (empty($message->htmlMessage))
-        {
-            $message->htmlMessage = StringHelper::parseMarkdown($message->message);
-        }
+		if (empty($message->htmlMessage))
+		{
+			$message->htmlMessage = StringHelper::parseMarkdown($message->message);
+		}
 
 		if ($message->validate())
 		{
