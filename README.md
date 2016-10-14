@@ -262,7 +262,42 @@ class SomePlugin extends BasePlugin
 }
 ```
 
+### The `contactForm.beforeMessageCompile` event
+
+Other plugins can list to this event to change the contents of the plain text body of the 
+email as well as the HTML body.
+
+```php
+class SomePlugin extends BasePlugin
+{
+    // ...
+
+    public function init()
+    {
+        craft()->on('contactForm.beforeMessageCompile', function(ContactFormMessageEvent $event) {
+            $message = $event->params['message'];
+            $htmlMessage = $event->params['htmlMessage'];
+            $messageFields = $event->params['messageFields'];
+
+            // ...
+
+            $event->params['message'] = 'Make email great again! - '.$message;
+            $event->params['htmlMessage'] = '<p>Make email great again! - '.$message.'</p>';
+        });
+    }
+}
+```
+
 ## Changelog
+
+### 1.8.1
+
+* Fixed a bug where the HTML body of an email was being escaped displaying HTML entities in the email.
+
+### 1.8.0
+
+* Added the ability for plugins to modify the email's plain text and HTML body via the `contactForm.beforeMessageCompile` event.
+* Fixed a bug where Twig code that was entered in the email body or subject was getting parsed.
 
 ### 1.7.0
 
